@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Admin Dashboard
 
-## Getting Started
+Dashboard web minimo en Next.js para supervisar visitas capturadas en Supabase.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- `@supabase/supabase-js`
+
+## Requisitos
+
+- Node.js 20+ recomendado
+- Variables de entorno configuradas en `.env.local`
+
+## Variables de entorno
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=tu_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_supabase_anon_key
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+La aplicacion consulta la view publica `public.visits_dashboard` con estas columnas:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `id`
+- `operator_id`
+- `client_name`
+- `station_name`
+- `consumption`
+- `notes`
+- `photo_url`
+- `created_at`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Correr en local
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Abrir [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run dev`: entorno local
+- `npm run build`: build de produccion
+- `npm run start`: correr build de produccion
+- `npm run lint`: validar codigo
 
-## Deploy on Vercel
+## Funcionalidad incluida
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Dashboard principal con 3 KPIs:
+  - total visitas
+  - visitas con foto
+  - visitas sin foto
+- Tabla operativa ordenada por `created_at desc`
+- Boton de recarga manual
+- Boton `Ver foto` por registro cuando existe `photo_url`
+- Conexion centralizada en `lib/supabase.ts`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notas
+
+- No hay autenticacion en esta primera version.
+- La app usa las variables `NEXT_PUBLIC_*` para poder integrarse rapido al MVP.
