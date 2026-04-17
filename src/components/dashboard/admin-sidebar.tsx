@@ -29,26 +29,60 @@ function isGroupActive(currentPath: string, item: NavigationItem) {
 function SidebarContent({
   role,
   onNavigate,
+  tone = "desktop",
 }: {
   role: UserRole;
   onNavigate?: () => void;
+  tone?: "desktop" | "mobile";
 }) {
   const pathname = usePathname();
   const items = getVisibleNavigation(role);
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  const isDesktop = tone === "desktop";
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="border-b border-white/10 px-5 py-6">
+    <div
+      className={`flex h-full flex-col ${
+        isDesktop ? "bg-white text-slate-900" : "bg-slate-950 text-white"
+      }`}
+    >
+      <div
+        className={`px-5 py-6 ${
+          isDesktop ? "border-b border-slate-200" : "border-b border-white/10"
+        }`}
+      >
+        <div
+          className={`mb-4 rounded-2xl border px-3 py-2 text-xs font-bold uppercase tracking-[0.32em] ${
+            isDesktop
+              ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+              : "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
+          }`}
+        >
+          SIDEBAR OK
+        </div>
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/12 text-white shadow-lg shadow-slate-950/20 ring-1 ring-white/10">
+          <div
+            className={`flex h-11 w-11 items-center justify-center rounded-2xl ${
+              isDesktop
+                ? "bg-slate-950 text-white shadow-lg shadow-slate-300/40"
+                : "bg-white/12 text-white shadow-lg shadow-slate-950/20 ring-1 ring-white/10"
+            }`}
+          >
             <Icon name="monitoring" className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-sky-300/80">
+            <p
+              className={`text-xs font-semibold uppercase tracking-[0.32em] ${
+                isDesktop ? "text-sky-700" : "text-sky-300/80"
+              }`}
+            >
               Fumigación
             </p>
-            <p className="text-sm font-semibold text-white">
+            <p
+              className={`text-sm font-semibold ${
+                isDesktop ? "text-slate-950" : "text-white"
+              }`}
+            >
               Monitoreo y Control
             </p>
           </div>
@@ -67,13 +101,25 @@ function SidebarContent({
                 onClick={onNavigate}
                 className={`flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium ${
                   active
-                    ? "bg-white text-slate-950 shadow-lg shadow-slate-950/10"
-                    : "text-slate-300 hover:bg-white/8 hover:text-white"
+                    ? isDesktop
+                      ? "bg-slate-950 text-white shadow-lg shadow-slate-300/30"
+                      : "bg-white text-slate-950 shadow-lg shadow-slate-950/10"
+                    : isDesktop
+                      ? "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+                      : "text-slate-300 hover:bg-white/8 hover:text-white"
                 }`}
               >
                 <Icon
                   name={item.icon}
-                  className={`h-5 w-5 ${active ? "text-sky-700" : "text-slate-400"}`}
+                  className={`h-5 w-5 ${
+                    active
+                      ? isDesktop
+                        ? "text-sky-300"
+                        : "text-sky-700"
+                      : isDesktop
+                        ? "text-slate-400"
+                        : "text-slate-400"
+                  }`}
                 />
                 <span>{item.label}</span>
               </Link>
@@ -88,7 +134,9 @@ function SidebarContent({
               key={item.label}
               className={`rounded-[1.75rem] border ${
                 active
-                  ? "border-white/14 bg-white/7"
+                  ? isDesktop
+                    ? "border-slate-200 bg-slate-50"
+                    : "border-white/14 bg-white/7"
                   : "border-transparent bg-transparent"
               }`}
             >
@@ -101,12 +149,24 @@ function SidebarContent({
                   }))
                 }
                 className={`flex w-full items-center gap-3 px-3 py-3 text-left text-sm font-medium ${
-                  active ? "text-white" : "text-slate-300 hover:text-white"
+                  active
+                    ? isDesktop
+                      ? "text-slate-950"
+                      : "text-white"
+                    : isDesktop
+                      ? "text-slate-700 hover:text-slate-950"
+                      : "text-slate-300 hover:text-white"
                 }`}
               >
                 <Icon
                   name={item.icon}
-                  className={`h-5 w-5 ${active ? "text-sky-300" : "text-slate-400"}`}
+                  className={`h-5 w-5 ${
+                    active
+                      ? isDesktop
+                        ? "text-sky-700"
+                        : "text-sky-300"
+                      : "text-slate-400"
+                  }`}
                 />
                 <span className="flex-1">{item.label}</span>
                 <Icon
@@ -129,14 +189,22 @@ function SidebarContent({
                         onClick={onNavigate}
                         className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm ${
                           childActive
-                            ? "bg-white text-slate-950 shadow-lg shadow-slate-950/10"
-                            : "text-slate-300 hover:bg-white/8 hover:text-white"
+                            ? isDesktop
+                              ? "bg-slate-950 text-white shadow-lg shadow-slate-300/30"
+                              : "bg-white text-slate-950 shadow-lg shadow-slate-950/10"
+                            : isDesktop
+                              ? "text-slate-600 hover:bg-white hover:text-slate-950"
+                              : "text-slate-300 hover:bg-white/8 hover:text-white"
                         }`}
                       >
                         <Icon
                           name={child.icon}
                           className={`h-4 w-4 ${
-                            childActive ? "text-sky-700" : "text-slate-500"
+                            childActive
+                              ? isDesktop
+                                ? "text-sky-300"
+                                : "text-sky-700"
+                              : "text-slate-500"
                           }`}
                         />
                         <span className="leading-5">{child.label}</span>
@@ -150,23 +218,51 @@ function SidebarContent({
         })}
       </nav>
 
-      <div className="border-t border-white/10 p-4">
-        <div className="rounded-[1.75rem] bg-white/7 p-4 ring-1 ring-white/8">
+      <div
+        className={`p-4 ${
+          isDesktop ? "border-t border-slate-200" : "border-t border-white/10"
+        }`}
+      >
+        <div
+          className={`rounded-[1.75rem] p-4 ${
+            isDesktop
+              ? "bg-slate-50 ring-1 ring-slate-200"
+              : "bg-white/7 ring-1 ring-white/8"
+          }`}
+        >
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-400/18 text-sky-200">
+            <div
+              className={`flex h-11 w-11 items-center justify-center rounded-2xl ${
+                isDesktop
+                  ? "bg-slate-950 text-white"
+                  : "bg-sky-400/18 text-sky-200"
+              }`}
+            >
               RA
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold text-white">
+              <p
+                className={`truncate text-sm font-semibold ${
+                  isDesktop ? "text-slate-950" : "text-white"
+                }`}
+              >
                 Root Admin
               </p>
-              <p className="truncate text-xs text-slate-400">
+              <p
+                className={`truncate text-xs ${
+                  isDesktop ? "text-slate-500" : "text-slate-400"
+                }`}
+              >
                 Sesión demostrativa
               </p>
             </div>
             <button
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-2xl text-slate-300 hover:bg-white/8 hover:text-white"
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-2xl ${
+                isDesktop
+                  ? "text-slate-500 hover:bg-slate-200 hover:text-slate-950"
+                  : "text-slate-300 hover:bg-white/8 hover:text-white"
+              }`}
               aria-label="Cerrar sesión"
             >
               <Icon name="logout" className="h-4 w-4" />
@@ -217,8 +313,10 @@ export function AdminSidebar({ role = "root-admin" }: { role?: UserRole }) {
         </div>
       </div>
 
-      <aside className="hidden shrink-0 border-r border-slate-200/60 bg-[linear-gradient(180deg,#0f172a_0%,#172554_56%,#172b4d_100%)] lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-80 lg:flex-col">
-        <SidebarContent role={role} />
+      <aside className="hidden shrink-0 lg:flex lg:w-80 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white">
+        <div className="lg:sticky lg:top-0 lg:flex lg:h-screen lg:flex-col">
+          <SidebarContent role={role} tone="desktop" />
+        </div>
       </aside>
 
       {mobileOpen ? (
@@ -229,7 +327,7 @@ export function AdminSidebar({ role = "root-admin" }: { role?: UserRole }) {
             onClick={() => setMobileOpen(false)}
             aria-label="Cerrar menú"
           />
-          <div className="relative h-full w-[88vw] max-w-[340px] bg-[linear-gradient(180deg,#0f172a_0%,#172554_56%,#172b4d_100%)] shadow-2xl">
+          <div className="relative h-full w-[88vw] max-w-[340px] border-r border-slate-200 bg-slate-950 shadow-2xl">
             <div className="flex justify-end px-4 pt-4">
               <button
                 type="button"
@@ -243,6 +341,7 @@ export function AdminSidebar({ role = "root-admin" }: { role?: UserRole }) {
             <SidebarContent
               role={role}
               onNavigate={() => setMobileOpen(false)}
+              tone="mobile"
             />
           </div>
         </div>
