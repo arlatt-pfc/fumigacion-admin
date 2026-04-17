@@ -217,7 +217,7 @@ export function AdminSidebar({ role = "root-admin" }: { role?: UserRole }) {
         </div>
       </div>
 
-      <aside className="hidden h-screen w-[320px] shrink-0 border-r border-slate-200/60 bg-[linear-gradient(180deg,#0f172a_0%,#172554_56%,#172b4d_100%)] lg:sticky lg:top-0 lg:block">
+      <aside className="hidden shrink-0 border-r border-slate-200/60 bg-[linear-gradient(180deg,#0f172a_0%,#172554_56%,#172b4d_100%)] lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-80 lg:flex-col">
         <SidebarContent role={role} />
       </aside>
 
