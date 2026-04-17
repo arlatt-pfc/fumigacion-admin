@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Dashboard de Visitas | Fumigacion System",
-  description: "Supervision operativa de visitas capturadas en Supabase.",
+  title: "Fumigacion System | Monitoreo y Control",
+  description:
+    "Plataforma administrativa para monitoreo, mantenimiento y control de fumigación.",
 };
 
 export default function RootLayout({
